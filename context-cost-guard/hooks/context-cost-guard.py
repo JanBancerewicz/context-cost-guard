@@ -106,14 +106,16 @@ def main():
 
     warm = context * 0.1
     cold = context * 2
+    # Claude Code's "A hook blocked your prompt" card often collapses \n to
+    # spaces. Em-dash prefixes keep each fact scannable either way.
     message = (
-        "\n  This turn will cost much more than it looks.\n\n"
-        "  Conversation context : {ctx:,} tokens\n"
-        "  Idle                 : {idle:.0f} min  (cache likely expired after 60 min)\n"
-        "  Est. turn cost       : ~{cold:,.0f} vs ~{warm:,.0f} token-equivalents\n\n"
-        "  /clear    new topic — cheapest, start from zero\n"
-        "  /compact  same thread, summarized\n"
-        "  resend    send the same prompt again to continue anyway\n"
+        "This turn will cost much more than it looks.\n"
+        "— Conversation context : {ctx:,} tokens\n"
+        "— Idle : {idle:.0f} min (cache likely expired after 60 min)\n"
+        "— Est. turn cost : ~{cold:,.0f} vs ~{warm:,.0f} token-equivalents\n"
+        "— /clear new topic (cheapest)\n"
+        "— /compact same thread, summarized\n"
+        "— resend the same prompt to continue anyway"
     ).format(ctx=context, idle=idle, cold=cold, warm=warm)
 
     print(json.dumps({
