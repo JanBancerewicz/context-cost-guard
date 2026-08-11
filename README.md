@@ -16,67 +16,17 @@ This plugin is the **runtime guard**. Pair it with scoping `~/.claude/rules/` (`
 | **Language**  | English UI and source                                 |
 
 
-Blog (placeholder): `https://<site>/blog/reduce-claude-code-token-usage`
+> Blog article on how it works: [https://janbancerewicz.github.io/portfolio/blog/reduce-claude-code-token-usage](https://janbancerewicz.github.io/portfolio/blog/reduce-claude-code-token-usage)
 
 ---
 
-
-
-## Screenshots
-
-Drop real captures into `[docs/screenshots/](docs/screenshots/)` and replace the placeholders below.
-
-### 1. Install from the marketplace
-
-
-
-```text
-[docs/screenshots/01-install.png]
-  Suggested capture: plugin manager showing context-cost-guard installed/enabled.
-```
-
-Install from marketplace
-
-### 2. Quiet during active work
-
-
-
-```text
-[docs/screenshots/02-quiet.png]
-  Suggested capture: an active session submitting prompts with no cost warning.
-```
-
-Quiet during active work
-
-### 3. Block before a cold-cache turn
-
-
-
-```text
-[docs/screenshots/03-block.png]
-  Suggested capture: UserPromptSubmit block with the cost warning and /clear · /compact · resend.
-```
-
-Block before a cold-cache turn
-
-### 4. Resend within the snooze window
-
-
-
-```text
-[docs/screenshots/04-snooze-resend.png]
-  Suggested capture: immediate resend after a block proceeds without a second stop.
-```
-
-Resend within snooze
-
----
 
 
 
 ## Install
 
 Requires [Claude Code](https://code.claude.com/docs/en/overview) and `python3` on your `PATH`.
+Works both in Desktop version, as well as in terminal Claude Code. Installation via terminal: 
 
 In Claude Code:
 
@@ -84,6 +34,9 @@ In Claude Code:
 /plugin marketplace add JanBancerewicz/context-cost-guard
 /plugin install context-cost-guard@context-cost-guard
 ```
+
+![Installation in Claude Code terminal](docs/screenshots/1-install.png)
+
 
 Then **restart Claude Code** (or run `/reload-plugins`). Hooks load at session start; a restart is the reliable way to activate them.
 
@@ -119,22 +72,29 @@ Or add this repo as a local marketplace:
 | Snooze       | After a block, the same session may resend for `SNOOZE_SECONDS` (default 300) without another block           |
 | Fail-open    | Bad stdin, missing transcript, corrupt JSON, I/O errors → exit quietly, **never** block                       |
 
+### Example of usage
+
+![Hook script in action](docs/screenshots/3-block.png)
+
+> In the screenshot above: User sends a short message to a long Claude Desktop session, which would normally trigger a cold cache write of the entire context, billing you heavily for the whole conversation history.
+> **However, a warning from the hook pops up to alert the user and prevents the request from executing.**
 
 
 
-### Example block message
+### Block message
 
 ```text
-  This turn will cost much more than it looks.
+This turn will cost much more than it looks.
+Conversation context : 379,250 tokens
+Idle                 : 94 min  (cache likely expired after 60 min)
+Est. turn cost       : ~758,500 vs ~37,925 token-equivalents
 
-  Conversation context : 379,250 tokens
-  Idle                 : 94 min  (cache likely expired after 60 min)
-  Est. turn cost       : ~758,500 vs ~37,925 token-equivalents
-
-  /clear    new topic — cheapest, start from zero
-  /compact  same thread, summarized
-  resend    send the same prompt again to continue anyway
+/clear    new topic — cheapest, start from zero
+/compact  same thread, summarized
+resend    send the same prompt again to continue anyway
 ```
+
+(The hook joins those lines with Unicode line separators so Claude Code’s block card keeps the line breaks — plain `\n` is collapsed to spaces in that UI.)
 
 - `/clear` — cheapest reset for a new topic
 - `/compact` — stay in the thread with a summarized context
@@ -197,7 +157,7 @@ UserPromptSubmit hook
 | Network                                   | None       | No telemetry, no uploads      |
 
 
-The whole policy is in `[context-cost-guard/hooks/context-cost-guard.py](context-cost-guard/hooks/context-cost-guard.py)` (~130 lines). Audit it in five minutes.
+The whole code is in [context-cost-guard/hooks/context-cost-guard.py](context-cost-guard/hooks/context-cost-guard.py) (~130 lines). Audit it in five minutes.
 
 ### Cost estimate shown in the message
 
@@ -355,8 +315,6 @@ Hook command (plugin-safe path):
 ```
 
 ---
-
-
 
 ## License
 
