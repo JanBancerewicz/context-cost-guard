@@ -1,0 +1,19 @@
+{
+  "name": "context-cost-guard",
+  "version": "1.0.0",
+  "description": "Warn before an expensive cold-cache turn: blocks once when conversation context is large and idle past the prompt-cache TTL window.",
+  "author": {
+    "name": "Jan Bancerewicz",
+    "url": "https://github.com/JanBancerewicz"
+  },
+  "homepage": "https://github.com/JanBancerewicz/context-cost-guard",
+  "repository": "https://github.com/JanBancerewicz/context-cost-guard",
+  "license": "MIT",
+  "keywords": [
+    "hooks",
+    "cost",
+    "prompt-cache",
+    "tokens",
+    "UserPromptSubmit"
+  ]
+}

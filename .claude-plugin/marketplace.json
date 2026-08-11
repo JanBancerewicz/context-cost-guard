@@ -1,0 +1,34 @@
+{
+  "name": "context-cost-guard",
+  "owner": {
+    "name": "Jan Bancerewicz",
+    "url": "https://github.com/JanBancerewicz"
+  },
+  "metadata": {
+    "description": "Warn before expensive Claude Code turns when a large conversation cache has likely expired",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "context-cost-guard",
+      "source": "./context-cost-guard",
+      "description": "Blocks once before a cold-cache turn when context is large and the session has been idle past the prompt-cache TTL window.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Jan Bancerewicz",
+        "url": "https://github.com/JanBancerewicz"
+      },
+      "homepage": "https://github.com/JanBancerewicz/context-cost-guard",
+      "repository": "https://github.com/JanBancerewicz/context-cost-guard",
+      "license": "MIT",
+      "keywords": [
+        "hooks",
+        "cost",
+        "prompt-cache",
+        "tokens",
+        "UserPromptSubmit"
+      ],
+      "category": "productivity"
+    }
+  ]
+}

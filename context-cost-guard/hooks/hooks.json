@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/context-cost-guard.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking turn cost..."
+          }
+        ]
+      }
+    ]
+  }
+}
