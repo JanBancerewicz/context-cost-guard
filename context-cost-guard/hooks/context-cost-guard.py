@@ -106,17 +106,19 @@ def main():
 
     warm = context * 0.1
     cold = context * 2
-    # Claude Code's "A hook blocked your prompt" card often collapses \n to
-    # spaces. Em-dash prefixes keep each fact scannable either way.
-    message = (
-        "This turn will cost much more than it looks.\n"
-        "— Conversation context : {ctx:,} tokens\n"
-        "— Idle : {idle:.0f} min (cache likely expired after 60 min)\n"
-        "— Est. turn cost : ~{cold:,.0f} vs ~{warm:,.0f} token-equivalents\n"
-        "— /clear new topic (cheapest)\n"
-        "— /compact same thread, summarized\n"
-        "— resend the same prompt to continue anyway"
-    ).format(ctx=context, idle=idle, cold=cold, warm=warm)
+    # Claude Code's block card collapses ASCII \n to spaces (CSS white-space:
+    # normal). U+2028 LINE SEPARATOR is a forced break in that UI.
+    br = "\u2028"
+    message = br.join([
+        "This turn will cost much more than it looks.",
+        f"Conversation context : {context:,} tokens",
+        f"Idle                 : {idle:.0f} min  (cache likely expired after 60 min)",
+        f"Est. turn cost       : ~{cold:,.0f} vs ~{warm:,.0f} token-equivalents",
+        "",
+        "/clear    new topic — cheapest, start from zero",
+        "/compact  same thread, summarized",
+        "resend    send the same prompt again to continue anyway",
+    ])
 
     print(json.dumps({
         "decision": "block",

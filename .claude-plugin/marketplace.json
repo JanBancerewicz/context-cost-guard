@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Warn before expensive Claude Code turns when a large conversation cache has likely expired",
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   "plugins": [
     {
       "name": "context-cost-guard",
       "source": "./context-cost-guard",
       "description": "Blocks once before a cold-cache turn when context is large and the session has been idle past the prompt-cache TTL window.",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "author": {
         "name": "Jan Bancerewicz",
         "url": "https://github.com/JanBancerewicz"
